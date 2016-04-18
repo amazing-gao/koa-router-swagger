@@ -1,0 +1,21 @@
+{
+  "name": "koa-swagger-router",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "bitebit",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "joi": "^8.0.5",
+    "koa-router": "^5.4.0",
+    "lodash": "^4.9.0",
+    "swagger-parser-x": "^3.4.0",
+    "tv4": "^1.2.7"
+  },
+  "devDependencies": {},
+  "description": ""
+}

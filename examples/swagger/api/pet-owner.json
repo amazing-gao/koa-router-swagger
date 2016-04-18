@@ -1,0 +1,49 @@
+{
+  "title": "Pet Owner",
+  "type": "object",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "name": {
+      "type": "object",
+      "required": [
+        "first",
+        "last"
+      ],
+      "properties": {
+        "first": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 25
+        },
+        "last": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 25
+        }
+      }
+    },
+    "address": {
+      "title": "Address",
+      "type": "object",
+      "properties": {
+        "street1": {
+          "type": "string"
+        },
+        "street2": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
