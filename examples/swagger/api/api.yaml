@@ -9,38 +9,42 @@ consumes:
   - application/json
 produces:
   - application/json
+basePath: /api
 paths:
-  /:
+  /test/{id}:
     get:
       description: 'Index'
-      controller:
+      x-controller:
         - file: user
           handler: isLogin
         - file: page
           handler: userPage
       parameters:
+        - name: header
+          in: header
+          description: header
+          type: string
+        - name: id
+          in: path
+          description: path
+          type: string
         - name: who
           in: query
           description: who visit the index
           required: true
           type: string
         - name: when
-          in: query
+          in: body
           description: when visit the index
           required: true
           type: string
           format: email
         - name: number
-          in: query
+          in: formData
           description: when visit the index
           type: number
           format: int32
           required: true
-        - name: users
-          in: query
-          type: array
-          items:
-             type: string
       responses:
         '200':
           description: Index response
@@ -62,11 +66,10 @@ paths:
           schema:
             $ref: '#/definitions/errorModel'
 
-
   /pets:
     get:
       description: Returns all pets from the petstore
-      controller:
+      x-controller:
         - file: user
           handler: isAdmin
         - file: page
@@ -84,18 +87,18 @@ paths:
             $ref: '#/definitions/errorModel'
     post:
       description: Creates a new pet in the store
-      controller:
+      x-controller:
         - file: user
           handler: isLogin
         - file: page
           handler: adminPage
-      # parameters:
-      #   - name: pet
-      #     in: body
-      #     description: Pet to add to the store
-      #     required: true
-      #     schema:
-      #       $ref: '#/definitions/pet'
+      parameters:
+        - name: pet
+          in: body
+          description: Pet to add to the store
+          required: true
+          schema:
+            $ref: '#/definitions/pet'
       responses:
         '200':
           description: pet response
