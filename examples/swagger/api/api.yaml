@@ -28,6 +28,7 @@ paths:
           in: path
           description: path
           type: string
+          required: true
         - name: who
           in: query
           description: who visit the index
@@ -66,54 +67,20 @@ paths:
           schema:
             $ref: '#/definitions/errorModel'
 
-  /pets:
-    get:
-      description: Returns all pets from the petstore
-      x-controller:
-        - file: user
-          handler: isAdmin
-        - file: page
-          handler: adminPage
-      responses:
-        '200':
-          description: pet response
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/pet'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
-    post:
-      description: Creates a new pet in the store
-      x-controller:
-        - file: user
-          handler: isLogin
-        - file: page
-          handler: adminPage
-      parameters:
-        - name: pet
-          in: body
-          description: Pet to add to the store
-          required: true
-          schema:
-            $ref: '#/definitions/pet'
-      responses:
-        '200':
-          description: pet response
-          schema:
-            $ref: '#/definitions/pet'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
-
 
 definitions:
-  pet:
-    $ref: pet.json
-  pet-owner:
-    $ref: pet-owner.json
   errorModel:
-    $ref: error.json
+    title: Error Model
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      helpURL:
+        type: string
+        format: url
