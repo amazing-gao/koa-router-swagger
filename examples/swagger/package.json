@@ -10,10 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "joi": "^8.0.5",
     "koa": "^1.2.0",
-    "koa-bodyparser": "^2.0.1",
-    "koa-router": "^5.4.0",
-    "lodash": "^4.8.2"
+    "koa-router-swagger": "*"
   }
 }

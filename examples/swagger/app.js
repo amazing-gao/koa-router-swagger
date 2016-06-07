@@ -2,7 +2,8 @@
 
 let koa = require('koa');
 let bodyParser = require('koa-bodyparser');
-let koaSwaggerRouter = require('../../index');
+
+let koaSwaggerRouter = require('koa-router-swagger');
 
 let app = koa();
 
@@ -13,6 +14,8 @@ let opt = {
   controllerDir: './controller'
 }
 
-app.use(new koaSwaggerRouter(opt));
+let swagger = new koaSwaggerRouter(app, opt);
+app.use(swagger.routes());
+app.use(swagger.apiExplorer());
 
 app.listen(9000)

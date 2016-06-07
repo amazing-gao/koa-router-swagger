@@ -34,18 +34,18 @@ paths:
           description: who visit the index
           required: true
           type: string
-        - name: when
-          in: body
-          description: when visit the index
-          required: true
-          type: string
-          format: email
-        - name: number
-          in: formData
-          description: when visit the index
-          type: number
-          format: int32
-          required: true
+        # - name: when
+        #   in: body
+        #   description: when visit the index
+        #   required: true
+        #   type: string
+        #   format: email
+        # - name: number
+        #   in: formData
+        #   description: when visit the index
+        #   type: number
+        #   format: int32
+        #   required: true
       responses:
         '200':
           description: Index response
