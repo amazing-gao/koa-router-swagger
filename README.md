@@ -19,7 +19,7 @@ app.use(bodyParser());
 let opt = {
   apiDoc: './api/api.yaml',
   controllerDir: './controller',
-  redis: client
+  redis: redisClient
 }
 
 let swagger = new koaSwaggerRouter(app, opt);
@@ -29,8 +29,48 @@ app.use(swagger.apiExplorer());
 app.listen(9000)
 ```
 
+* apiDoc: the swagger doc file, support json and yaml
+* controllerDir: the controller dir in the apiDoc
+* redis: a redis client, like ioredis
+
+# Extended word of the swagger spec
+
+## x-controller
+
+It's an array of middleware. the order represent to the handle follow.
+
+* file: middleware file
+* handler: middleware in file
+
+```
+paths:
+  /:
+    get:
+      description: 'Index'
+      x-controller:
+        - file: user
+          handler: isLogin
+        - file: page
+          handler: userPage
+```
+
+## x-cache
+It's base on koa-router-cache.
+
+* expire: time to live, ms
+
+```
+paths:
+  /test:
+    get:
+      description: 'Index'
+      x-cache:
+          expire: 10000
+```
+
+
 # Swagger Doc explorer
 
 ```sh
-http://127.0.0.1:9000/api-explorer
+open http://127.0.0.1:9000/api-explorer
 ```
