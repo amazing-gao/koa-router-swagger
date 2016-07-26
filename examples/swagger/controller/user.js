@@ -3,7 +3,7 @@
 function* isAdmin (next) {
   let ctx = this;
 
-  if (ctx.query.user === 'admin') {
+  if (ctx.query.who === 'admin') {
     yield next
   } else {
     this.status = 403
@@ -14,11 +14,11 @@ function* isAdmin (next) {
 function* isLogin (next) {
   let ctx = this;
 
-  if (ctx.query.user === 'user') {
+  if (ctx.query.who === 'user') {
     yield next
   } else {
     this.status = 403
-    this.body = 'user required!'
+    this.body = {msg: 'user required!'}
   }
 }
 

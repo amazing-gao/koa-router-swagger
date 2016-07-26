@@ -18,7 +18,8 @@ app.use(bodyParser());
 
 let opt = {
   apiDoc: './api/api.yaml',
-  controllerDir: './controller'
+  controllerDir: './controller',
+  redis: client
 }
 
 let swagger = new koaSwaggerRouter(app, opt);

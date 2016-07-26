@@ -11,22 +11,20 @@ produces:
   - application/json
 basePath: /api
 paths:
-  /test/{id}:
+  /test:
     get:
       description: 'Index'
+      x-cache:
+          expire: 10000
       x-controller:
         - file: user
           handler: isLogin
         - file: page
           handler: userPage
       parameters:
-        - name: header
-          in: header
-          description: header
-          type: string
         - name: id
-          in: path
-          description: path
+          in: query
+          description: id
           type: string
           required: true
         - name: who
@@ -34,39 +32,16 @@ paths:
           description: who visit the index
           required: true
           type: string
-        # - name: when
-        #   in: body
-        #   description: when visit the index
-        #   required: true
-        #   type: string
-        #   format: email
-        # - name: number
-        #   in: formData
-        #   description: when visit the index
-        #   type: number
-        #   format: int32
-        #   required: true
+
       responses:
         '200':
           description: Index response
           schema:
             type: string
-        '201':
-          description: Create response
-          schema:
-            type: object
-            properties:
-              name:
-                type: string
-              age:
-                type: integer
-                format: int32
-                minimum: 0
         default:
           description: unexpected error
           schema:
             $ref: '#/definitions/errorModel'
-
 
 definitions:
   errorModel:
