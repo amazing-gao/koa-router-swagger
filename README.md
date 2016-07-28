@@ -19,7 +19,8 @@ app.use(bodyParser());
 let opt = {
   apiDoc: './api/api.yaml',
   controllerDir: './controller',
-  redis: redisClient
+  redis: redisClient,
+  port: 9000
 }
 
 let swagger = new koaSwaggerRouter(app, opt);
@@ -32,6 +33,7 @@ app.listen(9000)
 * apiDoc: the swagger doc file, support json and yaml
 * controllerDir: the controller dir in the apiDoc
 * redis: a redis client, like ioredis
+* port: koa server listen port, for open the api explorer
 
 # Extended word of the swagger spec
 

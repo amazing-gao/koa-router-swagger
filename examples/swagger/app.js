@@ -3,6 +3,7 @@
 let koa = require('koa');
 let bodyParser = require('koa-bodyparser');
 let redis = require('ioredis');
+let logger = require('koa-logger');
 
 let koaSwaggerRouter = require('../../');
 
@@ -20,10 +21,12 @@ app.use(bodyParser());
 let opt = {
   apiDoc: './examples/swagger/api/api.yaml',
   controllerDir: './examples/swagger/controller',
-  redis: client
+  redis: client,
+  port: 9000
 }
 
 let swagger = new koaSwaggerRouter(app, opt);
+app.use(logger());
 app.use(swagger.routes());
 app.use(swagger.apiExplorer());
 
