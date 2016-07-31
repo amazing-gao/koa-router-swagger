@@ -17,6 +17,7 @@ let client = new redis({
 });
 
 app.use(bodyParser());
+app.use(logger());
 
 let opt = {
   apiDoc: './examples/swagger/api/api.yaml',
@@ -26,7 +27,6 @@ let opt = {
 }
 
 let swagger = new koaSwaggerRouter(app, opt);
-app.use(logger());
 app.use(swagger.routes());
 app.use(swagger.apiExplorer());
 
