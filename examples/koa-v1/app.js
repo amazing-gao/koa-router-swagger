@@ -20,8 +20,8 @@ app.use(bodyParser());
 app.use(logger());
 
 let opt = {
-  apiDoc: './examples/swagger/api/api.yaml',
-  controllerDir: './examples/swagger/controller',
+  apiDoc: './examples/koa-v1/api/api.yaml',
+  controllerDir: './examples/koa-v1/controller',
   redis: client,
   port: 9000
 }
