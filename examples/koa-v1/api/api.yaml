@@ -71,10 +71,8 @@ definitions:
     required:
       - name
       - sex
-      - mobile
       - height
       - weight
-      - skin
     properties:
       name:
         type: string
@@ -85,12 +83,20 @@ definitions:
           - female
       mobile:
         type: string
+        pattern: 183\d{8}
+        default: '18312345678'
       height:
         type: integer
         format: int32
+        minimum: 1
+        exclusiveMinimum: true
+        maximum: 10
+        exclusiveMaximum: true
       weight:
         type: integer
         format: int32
+        minimum: 10
+        maximum: 20
 
   Error:
     title: Error

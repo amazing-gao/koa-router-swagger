@@ -1,5 +1,12 @@
 # koa-router-swagger
 
+# Feature
+
+* parse swagger doc file to koa router
+* support parameters form valid (incomplete)
+* support redis cache
+* built-in swagger ui
+
 # Install
 ```js
 npm install koa-router-swagger --save
