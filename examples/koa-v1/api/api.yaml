@@ -11,41 +11,89 @@ produces:
   - application/json
 basePath: /api
 paths:
-  /test:
+  /people:
     get:
-      description: 'Index'
+      tags:
+        - People
+      description: 通过姓名或者手机号码查询一个人的信息
       x-cache:
-          expire: 10000
+          expire: 60
       x-controller:
-        - file: user
-          handler: isLogin
-        - file: page
-          handler: userPage
+        - file: people
+          handler: get
       parameters:
-        - name: id
+        - name: name
           in: query
-          description: id
           type: string
-          required: true
-        - name: who
+          description: 人员的姓名
+        - name: mobile
           in: query
-          description: who visit the index
-          required: true
           type: string
-
+          description: 人员的手机号码
       responses:
-        '200':
-          description: Index response
+        200:
+          description: 获取一个人的信息
           schema:
-            type: string
+            $ref: '#/definitions/People'
         default:
           description: unexpected error
           schema:
-            $ref: '#/definitions/errorModel'
+            $ref: '#/definitions/Error'
+
+    post:
+      tags:
+        - People
+      description: 录入一个人员的信息
+      x-controller:
+        - file: people
+          handler: post
+      parameters:
+        - name: body
+          in: body
+          description: 人员
+          required: true
+          schema:
+            $ref: '#/definitions/People'
+      responses:
+        200:
+          description: 返回录入人员的信息
+          schema:
+            $ref: '#/definitions/People'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
 
 definitions:
-  errorModel:
-    title: Error Model
+  People:
+    title: 人
+    type: object
+    required:
+      - name
+      - sex
+      - mobile
+      - height
+      - weight
+      - skin
+    properties:
+      name:
+        type: string
+      sex:
+        type: string
+        enum:
+          - male
+          - female
+      mobile:
+        type: string
+      height:
+        type: integer
+        format: int32
+      weight:
+        type: integer
+        format: int32
+
+  Error:
+    title: Error
     type: object
     required:
       - code
