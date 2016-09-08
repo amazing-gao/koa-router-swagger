@@ -9,12 +9,12 @@ let koaSwaggerRouter = require('../../');
 
 let app = koa();
 
-let client = new redis({
-  host: '10.2.130.145',
-  port: 6379,
-  keyPrefix: 'test:',
-  db: 1
-});
+// let client = new redis({
+//   host: '10.2.130.145',
+//   port: 6379,
+//   keyPrefix: 'test:',
+//   db: 1
+// });
 
 app.use(bodyParser());
 app.use(logger());
@@ -22,7 +22,7 @@ app.use(logger());
 let opt = {
   apiDoc: './examples/koa-v1/api/api.yaml',
   controllerDir: './examples/koa-v1/controller',
-  redis: client,
+  // redis: client,
   port: 9000
 }
 
