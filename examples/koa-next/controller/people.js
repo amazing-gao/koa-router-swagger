@@ -7,7 +7,7 @@ function get (ctx, next) {
 }
 
 function post (ctx, next) {
-  people = this.body;
+  people = ctx.request.body;
   ctx.body = people;
 }
 
