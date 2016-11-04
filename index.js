@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = require('./lib/swagger');
+module.exports = require('./dist/swagger');
