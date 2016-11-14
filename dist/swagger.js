@@ -144,19 +144,14 @@ swagger.prototype.apiExplorer = function (ctx, next) {
   self.app.use(mount('/koa-router-swagger', statics(swaggerDist)));
 
   // mount api-explorer
-  self.app.use(mount('/api-explorer', (() => {
+  return mount('/api-explorer', (() => {
     var _ref = _asyncToGenerator(function* (ctx) {
+      console.log(`ApiExplorer: http://127.0.0.1:${ self.port }/api-explorer`);
       yield ctx.render('index', { url: pathUtil.basename(self.apiDoc) });
     });
 
     return function (_x) {
       return _ref.apply(this, arguments);
     };
-  })()));
-
-  console.log(`ApiExplorer: http://127.0.0.1:${ self.port }/api-explorer`);
-
-  return (ctx, next) => {
-    next();
-  };
+  })());
 };
