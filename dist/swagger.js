@@ -10,7 +10,9 @@ let Router = require('koa-router');
 let swaggerParser = require('swagger-parser');
 let cache = require('koa-router-cache');
 let compose = require('koa-compose');
-let timer = require('koa-timer')({ slow: 50, debug: 'koa-router-swagger:timer' });
+let views = require('koa-views');
+let mount = require('koa-mount');
+let statics = require('koa-static');
 
 let swaggerRequest = require('./request');
 let swaggerResponse = require('./response');
@@ -22,12 +24,17 @@ module.exports = swagger;
 function swagger(app, opt) {
   if (!_.isObject(opt)) throw new Error('koa-router-swagger invalid options');
 
-  this.app = app;
   this.apiDoc = opt.apiDoc;
   this.controllerDir = opt.controllerDir;
   this.redis = opt.redis;
   this.port = opt.port || 80;
-  this.versioningUrl = true;
+  this.versioning = opt.versioning === undefined ? true : opt.versioning;
+  this.noApiExplorerOnline = opt.noApiExplorerOnline === undefined ? true : opt.noApiExplorerOnline;
+  this.apiExplorerPath = opt.apiExplorerPath || '/api-explorer';
+  this.apiExplorerStaticsPath = opt.apiExplorerStaticsPath || '/koa-router-swagger';
+
+  this.app = app;
+
   this.api = null;
   this.cache = null;
   this.router = Router();
@@ -59,7 +66,7 @@ swagger.prototype.routes = function () {
 swagger.prototype.parsePaths = function () {
   _.forEach(this.api.paths, (config, path) => {
     let reallyPath = '';
-    const prefix = !!this.versioningUrl ? '/v' + urlUtil.version(this.api.info.version).major : '';
+    const prefix = !!this.versioning ? '/v' + urlUtil.version(this.api.info.version).major : '';
 
     reallyPath = pathUtil.join(prefix, this.api.basePath || '', path);
     reallyPath = urlUtil.convert2RouterUrl(reallyPath);
@@ -127,27 +134,28 @@ swagger.prototype.loadCustomMiddlewares = function (controllers) {
   return middlewares;
 };
 
-swagger.prototype.apiExplorer = function (ctx, next) {
-  let views = require('koa-views');
-  let mount = require('koa-mount');
-  let statics = require('koa-static');
+swagger.prototype.apiExplorer = function () {
+  var _this = this;
 
-  const self = this;
-  const swaggerDist = require('koa-router-swagger-ui/index').dist;
+  if (process.env.NODE_ENV === 'production' && this.noApiExplorerOnline) return (ctx, next) => {
+    return next();
+  };
 
-  self.app.use(views(swaggerDist, { map: { html: 'nunjucks' } }));
+  this.app.use(mount(this.apiExplorerStaticsPath, statics(pathUtil.dirname(this.apiDoc))));
+  this.app.use(mount(this.apiExplorerStaticsPath, statics(`${ __dirname }/../public`)));
+  this.app.use(views(`${ __dirname }/../public`, { map: { html: 'nunjucks' } }));
 
-  // mount api doc files directory
-  self.app.use(mount('/api-doc-file', statics(pathUtil.dirname(self.apiDoc))));
+  console.log(`ApiExplorer: http://127.0.0.1:${ this.port }${ this.apiExplorerPath }`);
 
-  // mount swagger-ui dist directory
-  self.app.use(mount('/koa-router-swagger', statics(swaggerDist)));
-
-  // mount api-explorer
-  console.log(`ApiExplorer: http://127.0.0.1:${ self.port }/api-explorer`);
-  return mount('/api-explorer', (() => {
+  return mount(this.apiExplorerPath, (() => {
     var _ref = _asyncToGenerator(function* (ctx) {
-      yield ctx.render('index', { url: pathUtil.basename(self.apiDoc) });
+      const options = {
+        versioning: _this.versioning,
+        apiDoc: pathUtil.basename(_this.apiDoc),
+        apiExplorerPath: _this.apiExplorerPath,
+        apiExplorerStaticsPath: _this.apiExplorerStaticsPath
+      };
+      yield ctx.render('index', options);
     });
 
     return function (_x) {

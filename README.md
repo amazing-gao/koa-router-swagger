@@ -2,24 +2,24 @@
 
 # Feature
 
-* parse swagger doc file to koa router
-* support parameters form valid (incomplete)
-* support redis cache
 * built-in swagger ui
+* parse swagger doc file to koa router
+* support redis cache
+* support parameters form valid (incomplete)
 
 # Install
 ```js
-npm install koa-router-swagger --save
+npm install koa-router-swagger@next --save
 ```
 
 # Quick Start
 
 ```js
-let koa = require('koa');
+let Koa = require('koa');
+let Router = require('koa-router-swagger');
 let bodyParser = require('koa-bodyparser');
-let koaSwaggerRouter = require('koa-router-swagger');
 
-let app = koa();
+let app = new Koa();
 
 app.use(bodyParser());
 
@@ -30,22 +30,30 @@ let opt = {
   port: 9000
 }
 
-let swagger = new koaSwaggerRouter(app, opt);
+let swagger = new Router(app, opt);
 app.use(swagger.routes());
 app.use(swagger.apiExplorer());
 
 app.listen(9000)
 ```
 
-* apiDoc: the swagger doc file, support json and yaml
-* controllerDir: the controller dir in the apiDoc
-* redis: a redis client, like ioredis
-* port: koa server listen port, for open the api explorer
+# API
+
+## constructor(app, options)
+* app - a koa app instance.
+
+* options
+  - apiDoc - the swagger doc file, support json and yaml.
+  - controllerDir - the controller dir in the apiDoc.
+  - redis - a redis client, like ioredis.
+  - port - koa server listen port, just for quick open the api explorer, default *true*.
+  - versioning - enable or disable swagger doc major version to you api url, default *true*.
+  - apiExplorerPath - mount api-explorer to path. default */api-explorer*
+  - noApiExplorerOnline - not show api explorer on production.
 
 # Extended word of the swagger spec
 
 ## x-controller
-
 It's an array of middleware. the order represent to the handle follow.
 
 * file: middleware file
