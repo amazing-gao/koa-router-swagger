@@ -3,13 +3,13 @@
   "version": "2.0.4",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test"
+    "test": "ava -v",
+    "build": "babel lib -d dist"
   },
   "keywords": [],
   "author": "bitebit",
   "license": "MIT",
   "dependencies": {
-    "babel": "^6.5.2",
     "debug": "^2.2.0",
     "joi": "^8.0.5",
     "koa-compose": "^2.4.0",
@@ -30,8 +30,10 @@
     "tag": "next"
   },
   "devDependencies": {
-    "babel-plugin-transform-async-to-generator": "^6.8.0",
-    "babel-preset-stage-3": "^6.11.0"
+    "babel-cli": "^6.18.0",
+    "babel-plugin-transform-async-generator-functions": "^6.17.0",
+    "babel-plugin-transform-async-to-generator": "^6.16.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0"
   },
   "description": ""
 }
