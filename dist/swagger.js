@@ -155,7 +155,7 @@ swagger.prototype.apiExplorer = function () {
         apiExplorerPath: _this.apiExplorerPath,
         apiExplorerStaticsPath: _this.apiExplorerStaticsPath
       };
-      yield ctx.render('index', options);
+      yield ctx.renderSwaggerApiExplorer('index', options);
     });
 
     return function (_x) {
