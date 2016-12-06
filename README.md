@@ -1,3 +1,7 @@
+# Not maintained
+please migrate to [koa-oai-router](https://github.com/BiteBit/koa-oai-router )
+
+
 # koa-router-swagger
 
 # Feature
